@@ -719,7 +719,12 @@ async def create_project(
     with fsspec_fs.open(address, "wb") as f:
         f.write(data_file.file.read())
 
-    checks = eval(checks[0])
+    try:
+        checks = json.loads(checks[0])
+        if not isinstance(checks, list):
+            raise ValueError("Checks must be a JSON array")
+    except (json.JSONDecodeError, ValueError) as e:
+        raise HTTPException(status_code=400, detail=f"Invalid checks format: {str(e)}")
     checks_1 = []
     metadata = eval(metadata)
 
