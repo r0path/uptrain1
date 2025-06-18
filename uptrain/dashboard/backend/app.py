@@ -719,9 +719,15 @@ async def create_project(
     with fsspec_fs.open(address, "wb") as f:
         f.write(data_file.file.read())
 
-    checks = eval(checks[0])
+    try:
+        checks = json.loads(checks[0])
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Invalid checks format")
     checks_1 = []
-    metadata = eval(metadata)
+    try:
+        metadata = json.loads(metadata)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Invalid metadata format")
 
     for check in checks:
         if check in metadata:
