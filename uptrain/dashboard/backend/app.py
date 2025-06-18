@@ -719,9 +719,15 @@ async def create_project(
     with fsspec_fs.open(address, "wb") as f:
         f.write(data_file.file.read())
 
-    checks = eval(checks[0])
+    try:
+        checks = json.loads(checks[0])
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid checks payload")
     checks_1 = []
-    metadata = eval(metadata)
+    try:
+        metadata = json.loads(metadata)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid metadata payload")
 
     for check in checks:
         if check in metadata:
@@ -791,9 +797,15 @@ async def new_run(
         .first()
     )
     
-    checks = eval(checks[0])
+    try:
+        checks = json.loads(checks[0])
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid checks payload")
     checks_1 = []
-    metadata = eval(metadata)
+    try:
+        metadata = json.loads(metadata)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid metadata payload")
 
     version = str(random.random()).split('.')[-1][:2]
     name_w_version = os.path.join(user_id, dataset_name, f"v_{version}")
@@ -958,9 +970,15 @@ async def add_prompts(
         .first()
     )
     
-    checks = eval(checks[0])
+    try:
+        checks = json.loads(checks[0])
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid checks payload")
     checks_1 = []
-    metadata = eval(metadata)
+    try:
+        metadata = json.loads(metadata)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid metadata payload")
 
     version = str(random.random()).split('.')[-1][:2]
     name_w_version = os.path.join(user_id, dataset_name, f"v_{version}")
