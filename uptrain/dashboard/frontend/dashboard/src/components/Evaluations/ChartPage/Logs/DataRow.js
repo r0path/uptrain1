@@ -48,10 +48,9 @@ const DataRow = (props) => {
                   ? scoreColorCalculator(props.score)
                   : "#B6B6B9",
             }}
-            dangerouslySetInnerHTML={{
-              __html: props.inModal ? props.data : truncatedExplanation,
-            }}
-          ></p>
+          >
+            {props.inModal ? props.data : truncatedExplanation}
+          </p>
           {!props.inModal && shouldShowMoreButton && (
             <button
               onClick={() => props.setShowFull((prev) => !prev)}
