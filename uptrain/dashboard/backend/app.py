@@ -719,9 +719,9 @@ async def create_project(
     with fsspec_fs.open(address, "wb") as f:
         f.write(data_file.file.read())
 
-    checks = eval(checks[0])
+    checks = json.loads(checks[0])
     checks_1 = []
-    metadata = eval(metadata)
+    metadata = json.loads(metadata)
 
     for check in checks:
         if check in metadata:
